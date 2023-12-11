@@ -616,7 +616,7 @@ class Load_RNABert_Model(nn.Module):
         return super(Load_RNABert_Model,cls).__new__(cls)
     def __init__(self, path) -> None:
         super(Load_RNABert_Model,self).__init__()
-        self.config = get_config(file_path = "./RNA_bert_config.json")
+        self.config = get_config(file_path = "../RNA_bert_config.json")
         
         self.max_length = self.config.max_position_embeddings
         
