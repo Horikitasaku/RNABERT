@@ -15,7 +15,7 @@ import itertools
 import subprocess
 import matplotlib.pyplot as plt
 import time
-from dataload import *
+from ..dataload import *
 
 
 #sklearn
@@ -616,7 +616,7 @@ class Load_RNABert_Model(nn.Module):
         return super(Load_RNABert_Model,cls).__new__(cls)
     def __init__(self, path) -> None:
         super(Load_RNABert_Model,self).__init__()
-        self.config = get_config(file_path = "./RNA_bert_config.json")
+        self.config = get_config(file_path = "../RNA_bert_config.json")
         
         self.max_length = self.config.max_position_embeddings
         
@@ -643,14 +643,14 @@ class Load_RNABert_Model(nn.Module):
         model.load_state_dict(torch.load(path))
         return model
     
-    def load_data_EMB(self, records):
+    def load_data_EMB(self, record):
         gapped_seqs = []
         seqs = []
 
         gapped_seq = str(record).upper()
         gapped_seq = gapped_seq.replace("T", "U")
         seq = gapped_seq.replace('-', '')
-        if set(seq) <= set(['A', 'T', 'G', 'C', 'U']) and len(list(seq)) < self.max_length:
+        if set(seq) <= set(['A', 'T', 'G', 'C', 'U']) and len(list(seq)) <= self.max_length:
             seqs.append(seq)
             gapped_seqs.append(gapped_seq)
         gapped_seqs = np.tile(onehot_seq(gapped_seqs, self.max_length*5), (1, 1))
